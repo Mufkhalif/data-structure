@@ -81,6 +81,33 @@ class LinkedList<Z> {
     return int.parse(value);
   }
 
+  String loopDetectionearlier() {
+    var currentNode = head;
+    var storeValue = [head!.value.toString()];
+
+    while (currentNode != null) {
+      currentNode = currentNode.next;
+
+      if (currentNode?.value != null) {
+        storeValue.add("${currentNode?.value}");
+      }
+    }
+
+    var result = "0";
+    var newStore = [];
+
+    for (var item in storeValue) {
+      if (newStore.contains(item)) {
+        result = item;
+        break;
+      } else {
+        newStore.add(item);
+      }
+    }
+
+    return result;
+  }
+
   @override
   String toString() {
     if (head == null) return "it's Empty head";
@@ -88,29 +115,20 @@ class LinkedList<Z> {
   }
 }
 
+bool checkIsLinkedlistIsPalindrome(String linkedString) {
+  final removeArrow = linkedString.replaceAll(" -> ", " ");
+  final reversedLinked = removeArrow.split(" ").toList().reversed.join(" ");
+  return removeArrow == reversedLinked;
+}
+
 void main(List<String> args) {
   final list = LinkedList();
 
   list.push(6);
-  list.push(1);
   list.push(7);
+  list.push(8);
+  list.push(7);
+  list.push(8);
 
-  final list2 = LinkedList();
-
-  list2.push(2);
-  list2.push(9);
-  list2.push(5);
-
-  print(list.sumValue() + list2.sumValue());
-
-  // list.push(4);
-  // list.push(5);
-
-  // print('Before: $list');
-
-  // final node = list.nodeAt(2);
-  // final removedValue = list.removeAfter(node!);
-
-  // print('After:  $list');
-  // print('Removed value: $removedValue');
+  print(list.loopDetectionearlier());
 }

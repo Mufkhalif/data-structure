@@ -336,3 +336,288 @@ void main(List<String> args) {
 }
 
 ```
+
+<br>
+2.6 Palindrome: Implement a function to check if a linked list is a palindrome.
+Hints: #5, #13, #29, #61, #101
+
+
+```dart
+class LinkedList {
+  /* ......... ALL DEFINITION CLASS LinkedList BEFORE*/
+}
+
+bool checkIsLinkedlistIsPalindrome(String linkedString) {
+  final removeArrow = linkedString.replaceAll(" -> ", " ");
+  final reversedLinked = removeArrow.split(" ").toList().reversed.join(" ");
+  return removeArrow == reversedLinked;
+}
+
+void main(List<String> args) {
+  final list = LinkedList();
+
+  list.push(6);
+  list.push(1);
+  list.push(7);
+
+  print(checkIsLinkedlistIsPalindrome(list.toString()));
+}
+```
+<br>
+
+2.8 Loop Detection: Given a circular linked list, implement an algorithm that returns the node at the
+beginning of the loop.
+DEFINITION
+Circular linked list: A (corrupt) linked list in which a node's next pointer points to an earlier node, so
+as to make a loop in the linked list.
+EXAMPLE
+Input: A->8->C->D->E- > C [the same C as earlier]
+Output: C
+Hints: #50, #69, #83, #90 
+
+
+```dart
+class LinkedList {
+  /* ......... ALL DEFINITION CLASS LinkedList BEFORE*/
+
+  String loopDetectionearlier() {
+    var currentNode = head;
+    var storeValue = [head!.value.toString()];
+
+    while (currentNode != null) {
+      currentNode = currentNode.next;
+
+      if (currentNode?.value != null) {
+        storeValue.add("${currentNode?.value}");
+      }
+    }
+
+    var result = "0";
+    var newStore = [];
+
+    for (var item in storeValue) {
+      if (newStore.contains(item)) {
+        result = item;
+        break;
+      } else {
+        newStore.add(item);
+      }
+    }
+
+    return result;
+  }
+}
+
+void main(List<String> args) {
+  final list = LinkedList();
+
+  list.push(6);
+  list.push(7);
+  list.push(8);
+  list.push(7);
+  list.push(8);
+
+  print(list.loopDetectionearlier());
+}
+
+```
+<br>
+<br>
+<br>
+<br>
+
+
+# Interview Question in DataStructure (STACK)
+
+3.1 Three in One: Describe how you could use a single array to implement three stacks.
+Hints: #2, #12, #38, #58 
+
+```dart
+
+class CreateStack<T> {
+  List<T> stacks = [];
+
+  void push(T value) {
+    stacks.insert(0, value);
+  }
+
+  void pop() {
+    stacks.removeAt(0);
+  }
+
+  T peek() {
+    return stacks.first;
+  }
+
+  bool get isEmpty => stacks.isEmpty;
+
+  @override
+  String toString() {
+    return stacks.toString();
+  }
+}
+
+
+class CreateMultiStack {
+  List<CreateStack<int>> stack = [];
+
+  void createStack(int value) {
+    for (var i = 0; i < value; i++) {
+      stack.add(CreateStack<int>());
+    }
+  }
+
+  void push(int index, int value) {
+    if (stack.isEmpty) {
+      return print("Please create numb of stack first");
+    }
+
+    stack[index].push(value);
+  }
+
+  void pop(int index, int value) {
+    if (stack.isEmpty) {
+      return print("Please create numb of stack first");
+    }
+
+    stack[index].pop();
+  }
+
+  void pee(int index, int value) {
+    if (stack.isEmpty) {
+      return print("Please create numb of stack first");
+    }
+
+    stack[index].peek();
+  }
+
+  bool isEmpty(int index, int value) {
+    if (stack.isEmpty) {
+      return true;
+    }
+
+    return stack[index].isEmpty;
+  }
+
+  void show() {
+    for (var item in stack) {
+      print(item.stacks.toString());
+    }
+  }
+}
+
+void main(List<String> args) {
+  final multiStack = CreateMultiStack();
+
+  multiStack.createStack(3);
+
+  multiStack.push(0, 1);
+  multiStack.push(0, 2);
+  multiStack.push(1, 2);
+  multiStack.push(2, 3);
+
+  multiStack.show();
+}
+```
+<br>
+
+3.2 Stack Min: How would you design a stack which, in addition to push and pop, has a function min
+which returns the minimum eiement? Push, pop and min should ail operate in 0(1 ) time. 
+
+
+```dart
+
+class CreateStack {
+  List<int> stacks = [];
+
+  void push(int value) {
+    stacks.insert(0, value);
+  }
+
+  void pop() {
+    stacks.removeAt(0);
+  }
+
+  int peek() {
+    return stacks.first;
+  }
+
+  bool get isEmpty => stacks.isEmpty;
+
+  int getMin() {
+    stacks.sort((a, b) => a.compareTo(b));
+    return stacks[0];
+  }
+
+  @override
+  String toString() {
+    return stacks.toString();
+  }
+}
+
+void main(List<String> args) {
+  var stack = CreateStack();
+
+  stack.push(1);
+  stack.push(2);
+  stack.push(3);
+
+  print("before");
+
+  print(stack.stacks);
+  print(stack.getMin());
+}
+```
+<br>
+
+3.5 Sort Stack: Write a program to sort a stack such that the smallest items are on the top. You can use
+an additional temporary stack, but you may not copy the elements into any other data structure
+(such as an array). The stack supports the following operations: push, pop, peek, and is Empty.
+Hints: #15, »32,043
+
+
+```dart
+class CreateStack {
+  List<int> stacks = [];
+
+  void push(int value) {
+    stacks.insert(0, value);
+  }
+
+  void pop() {
+    stacks.removeAt(0);
+  }
+
+  int peek() {
+    return stacks.first;
+  }
+
+  bool get isEmpty => stacks.isEmpty;
+
+  int getMin() {
+    stacks.sort((a, b) => a.compareTo(b));
+    return stacks[0];
+  }
+
+  List<int> short() {
+    stacks.sort((a, b) => a.compareTo(b));
+    return stacks;
+  }
+
+  @override
+  String toString() {
+    return stacks.toString();
+  }
+}
+
+void main(List<String> args) {
+  var stack = CreateStack();
+
+  stack.push(1);
+  stack.push(2);
+  stack.push(3);
+
+  print(stack.short());
+}
+
+```
