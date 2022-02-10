@@ -5,10 +5,6 @@ bool search(List list, int value, int min, int max) {
 
   final int mid = ((max + min) / 2).floor();
 
-  print("min value $min");
-  print("mid value $mid");
-  print("max value $max");
-
   if (value < list[mid]) {
     return search(list, value, min, mid - 1);
   } else if (value > list[mid]) {
