@@ -1,6 +1,4 @@
-
 # Interview Question in DataStructure (ARRAY)
-
 
 1.3 
 URLify: Write a method to replace all spaces in a string with '%20'. You may assume that the string
@@ -621,3 +619,184 @@ void main(List<String> args) {
 }
 
 ```
+
+<br>
+
+# Interview Question in DataStructure (TREE / BINARYTREE)
+
+4,2 Minimal Tree: Given a sorted (increasing order) array with unique integer elements, write an algorithm to create a binary search tree with minimal height. 
+
+```dart
+class BinaryNode<T> {
+  BinaryNode(this.value);
+  T value;
+  BinaryNode<T>? leftChild;
+  BinaryNode<T>? rightChild;
+
+  void traverseInOrder(void Function(T value) action) {
+    leftChild?.traverseInOrder(action);
+    action(value);
+    rightChild?.traverseInOrder(action);
+  }
+
+  void traversePreOrder(void Function(T value) action) {
+    action(value);
+    leftChild?.traversePreOrder(action);
+    rightChild?.traversePreOrder(action);
+  }
+
+  void traversePostOrder(void Function(T value) action) {
+    leftChild?.traversePostOrder(action);
+    rightChild?.traversePostOrder(action);
+    action(value);
+  }
+
+  @override
+  String toString() {
+    return _diagram(this);
+  }
+
+  String _diagram(
+    BinaryNode<T>? node, [
+    String top = "",
+    String root = "",
+    String bottom = "",
+  ]) {
+    if (node == null) {
+      return '$root null \n';
+    }
+
+    if (node.leftChild == null && node.rightChild == null) {
+      return "$root ${node.value}\n";
+    }
+    final a = _diagram(
+      node.rightChild,
+      '$top ',
+      '$top┌──',
+      '$top│ ',
+    );
+    final b = '$root${node.value}\n';
+    final c = _diagram(
+      node.leftChild,
+      '$bottom│ ',
+      '$bottom└──',
+      '$bottom ',
+    );
+    return '$a$b$c';
+  }
+}
+
+
+BinaryNode? minimalTree(
+  List list,
+  int start,
+  int end,
+) {
+  if (start > end) return null;
+
+  int mid = ((end + start) / 2).floor();
+
+  BinaryNode root = BinaryNode(list[mid]);
+
+  root.leftChild = minimalTree(list, start, mid - 1);
+  root.rightChild = minimalTree(list, mid + 1, end);
+
+  return root;
+}
+
+
+void main(List<String> args) {
+  var nums = [-10, -3, 0, 5, 9];
+  print(balenced(nums, 0, nums.length - 1));
+}
+```
+<br>
+
+4.11 Random Node: You are implementing a binary tree class from scratch which, in addition to
+insert , find , and delete , has a method getRandomNode() which returns a random node
+from the tree. All nodes should be equally likely to be chosen. Design and implement an algorithm
+for getRandomNode, and explain how you would implement the rest of the methods.
+Hints: #42, #54, #62, #75, #89, #99, #112, #119 
+
+```dart
+import 'dart:math';
+
+class BinaryNode<T> {
+  BinaryNode(this.value);
+  T value;
+  BinaryNode<T>? leftChild;
+  BinaryNode<T>? rightChild;
+
+  void traverseInOrder(void Function(T value) action) {
+    leftChild?.traverseInOrder(action);
+    action(value);
+    rightChild?.traverseInOrder(action);
+  }
+
+  void traversePreOrder(void Function(T value) action) {
+    action(value);
+    leftChild?.traversePreOrder(action);
+    rightChild?.traversePreOrder(action);
+  }
+
+  void traversePostOrder(void Function(T value) action) {
+    leftChild?.traversePostOrder(action);
+    rightChild?.traversePostOrder(action);
+    action(value);
+  }
+
+  T getRandomNode() {
+    var random = Random();
+    var store = [];
+
+    this.traverseInOrder((value) {
+      store.add(value);
+    });
+
+    return store[random.nextInt(store.length)];
+  }
+
+  @override
+  String toString() {
+    return _diagram(this);
+  }
+
+  String _diagram(
+    BinaryNode<T>? node, [
+    String top = "",
+    String root = "",
+    String bottom = "",
+  ]) {
+    if (node == null) {
+      return '$root null \n';
+    }
+
+    if (node.leftChild == null && node.rightChild == null) {
+      return "$root ${node.value}\n";
+    }
+    final a = _diagram(
+      node.rightChild,
+      '$top ',
+      '$top┌──',
+      '$top│ ',
+    );
+    final b = '$root${node.value}\n';
+    final c = _diagram(
+      node.leftChild,
+      '$bottom│ ',
+      '$bottom└──',
+      '$bottom ',
+    );
+    return '$a$b$c';
+  }
+}
+
+void main(List<String> args) {
+  var nums = [-10, -3, 0, 5, 9];
+
+  final tree = balenced(nums, 0, nums.length - 1);
+  print(tree!.getRandomNode());
+}
+
+```
+
